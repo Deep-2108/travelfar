@@ -7,11 +7,15 @@ const initiaItems=[
   {id:2,description:"socks",quantity:10,packed:false},
 ]
 function App() {
+  const [items,setItems]=useState([]);
+   function AddItem(item) {
+    setItems((prevItems) => [...prevItems, item]);
+  }
   return (
     <div className="App">
       <Logo></Logo>
-      <Form />
-      <PackingList></PackingList>
+      <Form onAddItems={AddItem} />
+      <PackingList items={items}></PackingList>
       <Stats></Stats>
     </div>
   );
@@ -21,13 +25,15 @@ function Logo(){
     <h1 className='Logoo'> 🚗Travel Far Away👜</h1>
   )
 }
-function Form(){
+function Form({onAddItems}){
   const [description,setDescription]=useState("");
   const [quantity,setQuantity]=useState(1);
+  
   function handleSubmit(e){
     e.preventDefault();
     if(!description)return ;
     const newItem={description,quantity,packed:false,id:Date.now()};
+    onAddItems(newItem);
     setDescription("");
     setQuantity(1);
   }
@@ -48,13 +54,13 @@ function Form(){
     </form>
   )
 }
-function PackingList(){
+function PackingList({items}){
   return (
     <div className='packinglist'>
       <ul className='ulist'>
         {
-        initiaItems.map((item)=>(
-          <Item item={item}/>
+        items.map((item)=>(
+          <Item item={item} key={item.id}/>
         ))
         }
       </ul>
@@ -65,7 +71,7 @@ function Item({item}){
   return (
     <li className='list1'>
 
-      <span style={item.packed ? {textdecoration:"line-through"} :{}}>
+      <span style={item.packed ? {textDecoration:"line-through"} :{}}>
         <input type='checkbox'></input>
         {item.quantity} {item.description}
       </span>
