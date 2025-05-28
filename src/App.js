@@ -11,11 +11,14 @@ function App() {
    function AddItem(item) {
     setItems((prevItems) => [...prevItems, item]);
   }
+  function handleDeleteItem(id){
+    setItems((items)=>items.filter((item)=>item.id!==id));
+  }
   return (
     <div className="App">
       <Logo></Logo>
       <Form onAddItems={AddItem} />
-      <PackingList items={items}></PackingList>
+      <PackingList items={items} onDeleteItem={handleDeleteItem}></PackingList>
       <Stats></Stats>
     </div>
   );
@@ -54,28 +57,28 @@ function Form({onAddItems}){
     </form>
   )
 }
-function PackingList({items}){
+function PackingList({items,onDeleteItem}){
   return (
     <div className='packinglist'>
       <ul className='ulist'>
         {
         items.map((item)=>(
-          <Item item={item} key={item.id}/>
+          <Item item={item} key={item.id} onDeleteItem={onDeleteItem}/>
         ))
         }
       </ul>
     </div>
   )
 }
-function Item({item}){
+function Item({item,onDeleteItem}){
   return (
     <li className='list1'>
 
       <span style={item.packed ? {textDecoration:"line-through"} :{}}>
-        <input type='checkbox'></input>
+        <input type='checkbox' ></input>
         {item.quantity} {item.description}
       </span>
-      <button className='btn'>❌</button>
+      <button className='btn' onClick={()=>onDeleteItem(item.id)}>❌</button>
     </li>
   )
 }
