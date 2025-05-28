@@ -17,7 +17,7 @@ function App() {
     <div className="App">
       <Logo></Logo>
       <Form onAddItems={AddItem} />
-      <PackingList handleToogleItem={handleToogleItem} items={items} onDeleteItem={handleDeleteItem}></PackingList>
+    <PackingList handleToogleItem={handleToogleItem} items={items} onDeleteItem={handleDeleteItem} setItems={setItems}></PackingList>
       <Stats items={items}></Stats>
     </div>
   );
@@ -56,7 +56,7 @@ function Form({onAddItems}){
     </form>
   )
 }
-function PackingList({items,onDeleteItem,handleToogleItem}){
+function PackingList({items,onDeleteItem,handleToogleItem,setItems}){
   const [sortBy,SetsortBy]=useState("input");
   let SortedItems;
   if(sortBy==="input")SortedItems=items;
@@ -78,7 +78,7 @@ function PackingList({items,onDeleteItem,handleToogleItem}){
           <option value={"description"}>Sort by description</option>
           <option value={"packed"}>Sort by packed</option>
         </select>
-        <button className='sortingf1'>
+        <button className='sortingf1' onClick={()=>setItems([])}>
           clearlist
         </button>
       </div>
@@ -99,6 +99,11 @@ function Item({item,onDeleteItem,handleToogleItem}){
   )
 }
 function Stats({items}){
+  if(items.length===0){
+    return (
+      <p className='statistic'>Add some items to your packing list🚀</p>
+    )
+  }
   const numItems=items.length;
   const numPacked=items.filter((item)=>item.packed).length;
   const percent=Math.round((numPacked/numItems)*100);
