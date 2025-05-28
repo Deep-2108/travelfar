@@ -46,7 +46,8 @@ body, html {
   background: #5c2f02;
   height: 50vh;
    display: flex;
-  justify-content: center;
+   flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
   width:100vw;
   color: aliceblue;
@@ -56,7 +57,7 @@ body, html {
 }
 .statistic{
   background: #20bf97;
-  font-size: large;
+  font-size:25px;
   align-self: center;
   width:100vw;
   display: flex;
@@ -66,7 +67,7 @@ body, html {
   height: 10vh;
 }
 .addbutton{
-  
+  box-shadow: 1px 20px 50px rgb(163, 91, 163);
   background: #20bf97;
   border: none;
   border-radius: 3px;
@@ -117,4 +118,36 @@ body, html {
 .btn{
   background: none;
   border: none;
+}
+.sortingf1{
+  /* position: absolute;
+  bottom: 15%;
+  left:40%; */
+  box-shadow: 0 2px 5px rgba(193, 176, 100, 0.2);
+  transition: box-shadow 0.3s ease;
+  background: #cec39c;
+  border: none;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+}
+.sortingf{
+  
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.sortingf1:hover{
+  box-shadow: 1 20px 50px rgb(163, 91, 163);
+  font-weight: 600;
+  background: #ccbc82;
+
 }

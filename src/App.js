@@ -6,6 +6,7 @@ function App() {
    function AddItem(item) {
     setItems((prevItems) => [...prevItems, item]);
   }
+  
   function handleDeleteItem(id){
     setItems((items)=>items.filter((item)=>item.id!==id));
   }
@@ -17,7 +18,7 @@ function App() {
       <Logo></Logo>
       <Form onAddItems={AddItem} />
       <PackingList handleToogleItem={handleToogleItem} items={items} onDeleteItem={handleDeleteItem}></PackingList>
-      <Stats></Stats>
+      <Stats items={items}></Stats>
     </div>
   );
 }
@@ -40,7 +41,7 @@ function Form({onAddItems}){
   }
   return (
     <form className='Add-frm' onSubmit={handleSubmit}>
-      <h3>What do you need for your trip?</h3>
+      <h3>What do you need for your 😍 trip?</h3>
       <select className='selectclass' value={quantity} onChange={(e)=>setQuantity(e.target.value)}>
         <option value={1}>1</option>
         <option value={2}>2</option>
@@ -56,15 +57,32 @@ function Form({onAddItems}){
   )
 }
 function PackingList({items,onDeleteItem,handleToogleItem}){
+  const [sortBy,SetsortBy]=useState("input");
+  let SortedItems;
+  if(sortBy==="input")SortedItems=items;
+  if(sortBy==="description")SortedItems=items.slice().sort((a,b)=>a.description.localeCompare(b.description));
+  if(sortBy==="packed")SortedItems=items.slice().sort((a,b)=>Number(a.packed)-Number(b.packed));
   return (
     <div className='packinglist'>
       <ul className='ulist'>
         {
-        items.map((item)=>(
+        SortedItems.map((item)=>(
           <Item item={item} key={item.id} onDeleteItem={onDeleteItem} handleToogleItem={handleToogleItem}/>
         ))
         }
       </ul>
+
+      <div className='sortingf'>
+        <select className='sortingf1' value={sortBy} onChange={(e)=>SetsortBy(e.target.value)}>
+          <option value={"input"}>Sort by input</option>
+          <option value={"description"}>Sort by description</option>
+          <option value={"packed"}>Sort by packed</option>
+        </select>
+        <button className='sortingf1'>
+          clearlist
+        </button>
+      </div>
+     
     </div>
   )
 }
@@ -80,11 +98,17 @@ function Item({item,onDeleteItem,handleToogleItem}){
     </li>
   )
 }
-function Stats(){
+function Stats({items}){
+  const numItems=items.length;
+  const numPacked=items.filter((item)=>item.packed).length;
+  const percent=Math.round((numPacked/numItems)*100);
+  
   return (
     <footer className='statistic'>
-      <em>
-        you have X items on your list and you have already packed X(X%);  
+      <em>{
+          percent===100 ? "you got everything,ready to go✈️":
+    `    you have ${numItems} items on your list and you have already packed ${numPacked} ( ${percent} %)` 
+        }
       </em>
     </footer>
   )
