@@ -76,7 +76,7 @@ function PackingList({items,onDeleteItem,handleToogleItem,setItems}){
         <select className='sortingf1' value={sortBy} onChange={(e)=>SetsortBy(e.target.value)}>
           <option value={"input"}>Sort by input</option>
           <option value={"description"}>Sort by description</option>
-          <option value={"packed"}>Sort by packed</option>
+          <option value={"packed"}>Sort by packed status</option>
         </select>
         <button className='sortingf1' onClick={()=>setItems([])}>
           clearlist
